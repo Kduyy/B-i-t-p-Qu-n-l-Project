@@ -1,0 +1,74 @@
+﻿@model PagedList.IPagedList<Bài_tập_Quản_lý_Project.Models.AssignTask>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @using (Html.BeginForm("Index", "AssignTasks", FormMethod.Get))
+    {
+    <p>
+        Search: @Html.TextBox("SearchString")
+        Department: @Html.DropDownList("Department", "All")
+        Company: @Html.DropDownList("Company", "All")
+        Date: @Html.DropDownList("Date", "All")
+        <input type="submit" value="Find" />
+    </p>
+    }
+    </p>
+<table class="table">
+    <tr>
+        <th>
+            ClientName
+            @*@Html.DisplayNameFor(model => model.Client.ClientName)*@
+        </th>
+        <th>
+            EmployeeName
+            @*@Html.DisplayNameFor(model => model.Employee.EmployeeName)*@
+        </th>
+        <th>
+            ProjectName
+            @*@Html.DisplayNameFor(model => model.Project.ProjectName)*@
+        </th>
+        <th>
+            Task
+            @*@Html.DisplayNameFor(model => model.Task)*@
+        </th>
+        <th>
+            Note
+            @*@Html.DisplayNameFor(model => model.Note)*@
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client.ClientName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.ProjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Task)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.AssignTaskId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.AssignTaskId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.AssignTaskId })
+        </td>
+    </tr>
+}
+
+</table>
+@(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, pageNO => Url.Action("Index", new { pageNO}))
